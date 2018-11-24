@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="copy_modal">
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        详情信息
+                    </h4>
+
+                </div>
+                <div class="modal-body" style="height: 250px; margin: 0; padding-left: 30px;font-size: 16px;font-family:'微软雅黑';
+                text-align: left;" >
+                    id:<span id="mod1_msg1"></span><br/>
+                     用户名:<span id="mod1_msg2"></span><br/>
+                     密码:<span id="mod1_msg3"></span><br/>
+                     手机号码:<span id="mod1_msg4"></span><br/>
+                     邮箱:<span id="mod1_msg5"></span><br/>
+                     创建时间:<span id="mod1_msg6"></span><br/>
+                     更新时间:<span id="mod1_msg7"></span><br/>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+
+
+</html>

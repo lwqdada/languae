@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>登录页面</title>
+   <th:block th:include="include/text :: top"></th:block>
+    <script src="/static/jquery/validate/jquery.validate.min.js"></script>
+    <script src="/static/jquery/validate/localization/messages_zh.js"></script>
+
+    <style>
+
+     *{
+         padding: 0;
+         margin: 0;
+
+      }
+
+       #login{
+           position:absolute;
+           width: 400px;
+           height: 340px;
+           padding: 10px 0px 10px 20px;
+           background-color: whitesmoke;
+           opacity: 0.8;
+           top: 50%;
+           left: 50%;
+           margin-top: -200px;
+           margin-left: -180px;
+           font-family:"微软雅黑";
+           border-radius: 4%;
+      }
+        label{
+            height:2.5em;
+            line-height: 2.5em;
+        }
+
+     #login .form-group{
+            font-size: 1.1em;
+            margin-left: 30px;
+        }
+
+     @media screen and (max-width:600px){
+         #login{
+            padding: 10px 0px 10px 10px;
+         }
+
+         #login .form-group{
+             font-size: 1.1em;
+             margin-left: 10px;
+         }
+
+         .error{
+             color:red;
+         }
+
+
+     }
+
+
+    </style>
+
+</head>
+<body style="background: url('/static/images/admin.jpg') no-repeat;">
+<div id="login">
+    <form class="form-horizontal" id="commentForm" th:action="@{/user/login}" method="post" >
+        <h4 style="text-align: center; font-weight: bolder; margin-bottom: 20px;" >用户登录</h4>
+        <h5 th:text="${message}" style="color:red; text-align: center; font-weight: 14px;"></h5>
+        <div class="form-group">
+            <label for="username" class="col-xs-1 col-sm-1 col-md-1" ><i class="glyphicon glyphicon-user"></i></label>
+            <div  class="col-xs-10 col-sm-8 col-md-8">
+                <input type="text" class="form-control" id="username" name="username" placeholder="请输入名字" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-xs-1 col-sm-1 col-md-1" ><i class="glyphicon glyphicon-lock"></i></label>
+            <div class="col-xs-10 col-sm-8 col-md-8" >
+                <input type="password" class="form-control " id="password" name="password" placeholder="请输入密码" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-10 col-sm-offset-2">
+                <div class="checkbox" style="font-size: 16px;">
+                    <label>
+                        <input type="checkbox" style="width: 16px; height: 16px;"><span>请记住我</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-1 col-sm-offset-1  col-xs-offset-1 col-sm-5 col-md-2 col-xs-10 ">
+                <button type="submit" class="btn btn-default" >登录</button>
+            </div>
+            <div class="col-md-offset-3 col-sm-offset-0 col-xs-offset-1  col-sm-4 col-md-2 col-xs-10">
+                <a type="submit" href="/user/registerForm" class="btn btn-default" >注册</a>
+            </div>
+
+        </div>
+
+    </form>
+
+
+
+</div>
+
+
+<script>
+    /*表单验证*/
+    $().ready(function() {
+        $("#commentForm").validate();
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width,initial-scale=1">
+    <th:block th:include="include/head :: header"></th:block>
+    <script src="/static/jquery/validate/jquery.validate.min.js"></script>
+    <script src="/static/jquery/validate/localization/messages_zh.js"></script>
+    <!--富文本编辑器wangEditor-->
+    <link href="https://cdn.staticfile.org/wangEditor/10.0.13/wangEditor.min.css" rel="stylesheet">
+    <!--富文本编辑器wangEditor-->
+    <script src="https://cdn.staticfile.org/wangEditor/10.0.13/wangEditor.min.js"></script>
+    <!--Dropzone-->
+
+    <link rel="stylesheet" href="/static/dropzone/dropzone.css" />
+    <link rel="stylesheet" href="/static/dropzone/min/dropzone.min.css" />
+
+
+
+
+
+    <title>内容表单</title>
+    <style>
+        .error{
+            color:red;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container" >
+    <div class="row top" th:include="include/include_main_menu :: copy_top"></div>
+    <div class="row center">
+        <div class="col-md-2 left" th:include="include/include_main_menu :: copy_menu"></div>
+        <div class="col-md-10 right"  style="height: auto; overflow: hidden;">
+            <button onclick="history.go(-1);" style="float:left; margin-top: 10px;" >返回</button>
+            <h3>新增内容</h3>
+            <!--form-begin-->
+            <p th:text="${msg}" class="btn-warning" style="text-align: left; width: 150px;"></p>
+            <form class="form-horizontal" action="/content/addContent" method="post" id="contentForm" >
+
+                <div class="form-group">
+                    <label for="categoryId" class="col-sm-2 control-label">父级目录</label>
+                    <div class="col-sm-8">
+                        <input type="hidden" class="form-control" name="categoryId" id="categoryId"  />
+                        <input id="categoryName" class="form-control" placeholder="请选择对应的区域id" readonly="true" data-toggle="modal" data-target="#myModal" required/>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="yanyu" class="col-sm-2 control-label">谚语俗语：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="yanyu" name="yanyu"   placeholder="请输入谚语" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="geyao" class="col-sm-2 control-label">歌谣：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="geyao" name="geyao"   placeholder="请输入歌谣" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gushi" class="col-sm-2 control-label">故事：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="gushi" name="gushi"   placeholder="请输入故事" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dancanduce" class="col-sm-2 control-label">典藏图册：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="dancanduce" name="dancanduce"   placeholder="请上传相应的图册">
+                        <div id="dropz" class="dropzone" style="border: 1px solid gray; width: 600px; height: 300px;"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="content" class="col-sm-2 control-label">简介：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="content" name="content" >
+                        <div id="editor" class="editor"></div>
+                    </div>
+                </div>
+
+
+                <button  type="submit" style="width: 150px;" class="btn btn-primary" id="btnSubmit" >提交</button>
+            </form>
+
+
+            <!--form_end-->
+
+            <!--modal-begin-->
+           <!-- <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                模态框
+            </button>-->
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                    请选择
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="modal-message">
+                                <ul id="myTree" class="ztree">
+                                </ul>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btnModalOk" >
+                                确定
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--modal-end-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    var myDropzone=new Dropzone("#dropz",{
+        url:"/upload",
+        paramName:"dropFile",
+        maxFiles: 10, // 一次性上传的文件数量上限
+        maxFilesize: 2, // 文件大小，单位：MB
+        acceptedFiles: ".jpg,.gif,.png,.jpeg", // 上传的类型
+        addRemoveLinks: true,
+        parallelUploads: 1, // 一次上传的文件数量
+        dictDefaultMessage: '拖动文件至此或者点击上传',
+        dictMaxFilesExceeded: "您最多只能上传 1 个文件！",
+        dictResponseError: '文件上传失败!',
+        dictInvalidFileType: "文件类型只能是*.jpg,*.gif,*.png,*.jpeg",
+        dictFallbackMessage: "浏览器不受支持",
+        dictFileTooBig: "文件过大上传文件最大支持",
+        dictRemoveLinks: "删除",
+        dictCancelUpload: "取消",
+        init:function () {
+            this.on("success",function (file,data) {
+                $("#dancanduce").val(data.filename);
+
+            });
+
+        }
+
+    });
+
+
+    /*wangEditor--begin*/
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    // 配置服务器端地址
+    editor.customConfig.uploadImgServer = '/upload';
+    editor.customConfig.uploadFileName = 'editorFiles';
+    editor.create();
+
+    $("#btnSubmit").bind("click", function() {
+        var contentHtml = editor.txt.html();
+
+        $("#content").val(contentHtml);
+    });
+    /*wangEditor-end*/
+
+
+
+    /*dropzone-begin*/
+
+
+
+    /*dropzone-end*/
+
+
+
+
+
+
+    $(function () {
+        var setting={
+           async:{
+               enable:true,
+               url:"/category/tree/data",
+               autoParam:["id"]
+
+           }
+        };
+        $.fn.zTree.init($("#myTree"),setting);
+        $("#btnModalOk").bind("click",function () {
+            var zTree=$.fn.zTree.getZTreeObj("myTree");
+            var nodes=zTree.getSelectedNodes();
+            //未选择
+            if(nodes.length==0){
+                alert("请选择一个节点");
+            }else {//已选择
+                var node=nodes[0];
+               $("#categoryId").val(node.id);
+               $("#categoryName").val(node.name);
+                $("#myModal").modal("hide")
+            }
+            
+        })
+    });
+
+    /*表单验证*/
+    $().ready(function() {
+        $("#contentForm").validate();
+    });
+
+
+
+</script>
+
+
+
+</body>
+</html>

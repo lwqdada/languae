@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <th:block th:include="include/header :: head_copy"></th:block>
+    <title>详情</title>
+</head>
+<body style="background: url('/static/image/admin.jpg') no-repeat  ; background-size: 100%;  ">
+
+<div class="container">
+    <!--导航条-->
+    <div class="row" >
+        <div id="header" th:include="include/common :: copy_nav"  class="col-md-12 col-sm-12 col-xs-12 ">
+        </div>
+    </div>
+
+    <!--标题-->
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h3> 1313</h3>
+
+        </div>
+    </div>
+
+    <!--主要内容-->
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" id="main">
+            <ul id="lie">
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12" >
+            neiron
+        </div>
+    </div>
+
+
+
+    <!--footer-->
+    <div class="row">
+        <div id="footer" th:include="include/common :: copy_footer" class="col-md-12 col-sm-12 col-xs-12"></div>
+    </div>
+
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            async : true,
+            type: 'get',
+            dataType: 'json',
+            url: 'http://localhost:8082/content/selectAll',
+            success: function (data) {
+                $.each(data.data.data, function (i,e) {
+                    $("#lie").append('<li ><a  href="/category/name='+e.name+'">' + e.name + '</a></li>');
+
+                });
+
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

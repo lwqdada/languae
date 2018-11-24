@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.language.api.dao.ConentDao" >
+ <sql id="base_content">
+      id,
+      category_id as categoryId,
+      yanyu,
+      geyao,
+      gushi,
+      jinji,
+      qiyu,
+      dancantuce,
+      content,
+      pic,
+      created,
+      updated
+ </sql>
+
+    <!--查看表中的所有内容-->
+    <select id="selectAll" resultType="AreaContent">
+        SELECT
+        <include refid="base_content"/>
+        from
+        area_content
+    </select>
+
+
+    <!--分页-->
+    <select id="page" resultType="AreaContent" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_content"/>
+        FROM
+        area_content AS  a
+        <where>
+            <if test="pageParams.categoryId!=null and pageParams.categoryId!=''">
+                AND  a.categoryId LIKE  CONCAT('%',#{pageParams.categoryId},'%')
+            </if>
+        </where>
+        LIMIT #{start}, #{length}
+    </select>
+
+    <!--查找记录数-->
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM area_content AS  a
+        <where>
+            <if test="categoryId!=null and categoryId!=''">
+                AND  a.categoryId LIKE  CONCAT('%',#{categoryId},'%')
+            </if>
+        </where>
+
+    </select>
+
+    <!--根据id删除记录-->
+    <delete id="deleteById" parameterType="long">
+        delete from  area_content WHERE  id=#{id}
+    </delete>
+
+    <!--插入内容-->
+    <insert id="insert" parameterType="AreaContent">
+
+        INSERT  INTO area_content
+        (
+          category_id,
+          yanyu,
+          geyao,
+          gushi,
+          jinji,
+          qiyu,
+          dancantuce,
+          content,
+          pic,
+          created,
+          updated
+        )
+        VALUES
+        (
+          #{categoryId},
+          #{yanyu},
+          #{geyao},
+          #{gushi},
+          #{jinji},
+          #{qiyu},
+          #{dancantuce},
+          #{content},
+          #{pic},
+          #{created},
+          #{updated}
+        )
+
+    </insert>
+
+    <!--根据id查找记录信息-->
+    <select id="selectById" resultType="AreaContent">
+        SELECT
+        <include refid="base_content"/>
+        from
+        area_content
+        as a
+        where a.id=#{id}
+    </select>
+
+    <!--更改内容信息-->
+    <update id="update" parameterType="AreaContent">
+        UPDATE area_content as a  SET
+         a.category_id=#{categoryId},
+         a.yanyu=#{yanyu},
+         a.geyao=#{geyao},
+         a.gushi=#{gushi},
+         a.jinji=#{jinji},
+         a.qiyu=#{qiyu},
+         a.dancantuce=#{dancantuce},
+         a.content=#{content},
+         a.pic=#{pic},
+         a.updated=#{updated}
+        WHERE a.id= #{id}
+    </update>
+
+</mapper>

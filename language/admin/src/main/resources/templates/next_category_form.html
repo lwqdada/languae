@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width,initial-scale=1">
+    <th:block th:include="include/head :: header"></th:block>
+    <script src="/static/jquery/validate/jquery.validate.min.js"></script>
+    <script src="/static/jquery/validate/localization/messages_zh.js"></script>
+    <script src="/static/js/common.js"></script>
+    <title>新增目录表单</title>
+
+</head>
+<body>
+<div class="container" >
+    <div class="row top" th:include="include/include_main_menu :: copy_top"></div>
+    <div class="row center">
+        <div class="col-md-2 left" th:include="include/include_main_menu :: copy_menu"></div>
+        <div class="col-md-10 right" >
+            <button onclick="history.go(-1);" style="float:left; margin-top: 10px;" >返回</button>
+            <h3>新增下级目录</h3>
+
+            <!--form-begin-->
+            <form class="form-horizontal" action="/category/AddnextCategory" method="post"  th:object="${category}" id="categoryForm">
+                <div class="form-group">
+                <label for="parentId" class="col-sm-2 control-label">父级目录id:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="parentId" name="parentId" th:value="*{id}" required />
+                </div>
+                </div>
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">目录名:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="请输入你新增的目录" required />
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="status" class="col-sm-2 control-label">状态:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="status" name="status" placeholder="请输入状态号" required/>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sortOrder" class="col-sm-2 control-label">排序:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="sortOrder" name="sortOrder" placeholder="请输入排序号"required />
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="isParent" class="col-sm-2 control-label">是否为父节点:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="isParent" name="isParent" placeholder="请输入true或false" required />
+
+                    </div>
+                </div>
+
+
+                <button  type="submit" style="width: 150px;" class="btn btn-primary" >提交</button>
+            </form>
+
+            <!--form_end-->
+
+        </div>
+    </div>
+</div>
+
+<script>
+    /*表单验证*/
+    $().ready(function() {
+        $("#categoryForm").validate();
+    });
+</script>
+
+
+
+</body>
+</html>

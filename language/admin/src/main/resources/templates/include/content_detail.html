@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+   <div  th:fragment="content_modal">
+
+       <!-- 内容详情模态框-->
+       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+           <div class="modal-dialog">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <button type="button" class="close" data-dismiss="modal"
+                               aria-hidden="true">×
+                       </button>
+                       <h4 class="modal-title" id="myModalLabel">
+
+                       </h4>
+                   </div>
+                   <div class="modal-body" id="message" style="width: 300px;  overflow: hidden;  margin: 0; padding-left: 30px;font-size: 16px;font-family:'微软雅黑';
+                text-align: left;" >
+                       id:<span id="content_msg1"></span><br/>
+                       分类id:<span id="content_msg2"></span><br/>
+                       谚语:<span id="content_msg3"></span><br/>
+                       歌谣:<span id="content_msg4"></span><br/>
+                       故事:<span id="content_msg5"></span><br/>
+                       简介:<span id="content_msg6"></span><br/>
+                       忌语:<span id="content_msg7"></span><br/>
+                       典藏图册:<span id="content_msg8"></span>
+                       内容:<span id="content_msg9"></span><br/>
+                       创建时间:<span id="content_msg10"></span><br/>
+                       更新时间:<span id="content_msg11"></span><br/>
+
+                   </div>
+                   <div class="modal-footer">
+                       <button type="button" class="btn btn-default"
+                               data-dismiss="modal">关闭
+                       </button>
+
+                   </div>
+               </div><!-- /.modal-content -->
+           </div><!-- /.modal-dialog -->
+       </div><!-- /.modal -->
+   </div>
+</html>

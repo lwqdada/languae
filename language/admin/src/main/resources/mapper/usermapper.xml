@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzxy.language.dao.UserDao" >
+
+    <sql id="base-column">
+    id,username,password,email,phone,created,updated
+</sql>
+
+    <!--查询所有用户 -->
+    <select id="selectAll" resultType="User">
+        SELECT
+        <include refid="base-column"/>
+        FROM
+        user
+    </select>
+
+
+    <!--模糊查询-->
+
+    <select id="page" resultType="User" parameterType="java.util.Map">
+        SELECT
+        <include refid="base-column"/>
+        FROM
+        user AS  a
+        <where>
+            <if test="pageParams.username!=null and pageParams.username!=''">
+                AND  a.username LIKE  CONCAT('%',#{pageParams.username},'%')
+            </if>
+        </where>
+        LIMIT #{start}, #{length}
+    </select>
+
+
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user AS  a
+        <where>
+            <if test="username!=null and username!=''">
+                AND  a.username LIKE  CONCAT('%',#{username},'%')
+            </if>
+        </where>
+
+    </select>
+
+
+    <!--根据用户名和密码登录-->
+    <select id="login" resultType="User">
+        SELECT
+        <include refid="base-column"/>
+        FROM
+        user where
+        username=#{username} AND
+        password=#{password}
+    </select>
+
+    <!--新增用户-->
+    <insert id="insert" parameterType="User">
+        INSERT  INTO  USER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            username,password,
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            created,updated
+        </trim>
+
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            #{username, jdbcType=VARCHAR},#{password, jdbcType=VARCHAR},
+            <if test="phone != null">
+                #{phone, jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email, jdbcType=VARCHAR},
+            </if>
+            #{created},
+            #{updated}
+
+        </trim>
+
+    </insert>
+
+    <!--根据用户id查询用户-->
+    <select id="selectById" resultType="User">
+        SELECT
+        <include refid="base-column"/>
+        FROM
+        USER
+        where id=#{id}
+    </select>
+
+    <!--根据用户姓名查询用户-->
+    <select id="selectByName" resultType="User" parameterType="String">
+        SELECT
+        <include refid="base-column"/>
+        FROM
+        USER
+        <where>
+            <if test="User.username!=null and User.username!=''">
+                AND  username LIKE  CONCAT('%',#{pageParams.username},'%')
+            </if>
+
+        </where>
+    </select>
+
+
+    <!--根据id更新用户-->
+    <update id="update" parameterType="User">
+        UPDATE USER  SET
+        username=#{username},
+        password=#{password},
+        phone=#{phone},
+        email=#{email},
+        updated=#{updated}
+         WHERE id= #{id}
+    </update>
+
+    <!--根据用户的id删除用户-->
+    <delete id="deleteById" parameterType="long">
+        delete from USER WHERE  id=#{id}
+    </delete>
+</mapper>

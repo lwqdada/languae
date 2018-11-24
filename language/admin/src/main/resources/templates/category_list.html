@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width,initial-scale=1">
+    <th:block th:include="include/head :: header"></th:block>
+    <title>分类列表</title>
+
+</head>
+<body>
+
+<div class="container" >
+    <div class="row top" th:include="include/include_main_menu :: copy_top"></div>
+    <div class="row center">
+        <div class="col-md-2 left" th:include="include/include_main_menu :: copy_menu"></div>
+
+        <div class="col-md-10 right" >
+            <button onclick="history.go(-1);" style="float:left; margin-top: 10px;" >返回</button>
+           <!--引入模态框-->
+            <div th:include="include/modal :: copy_modal"></div>
+            <h4 style="background-color: #00b3ee;" ></h4>
+
+            <h3>分类列表</h3>
+            <div class="box-body table-responsive no-padding" >
+                <table class="table table-hover" id="treeTable">
+                    <thead>
+                    <tr >
+                        <th>ID</th>
+                        <td>名称</td>
+                        <td>排序</td>
+                        <td>操作</td>
+                    </tr>
+
+                    </thead>
+                    <tbody>
+
+                            <tr th:each="entries:${categories}" th:id="${entries.id}" th:pId="${entries.parentId}">
+                                <th th:text="${entries.id}"></td>
+                                <td th:text="${entries.name}"></td>
+                                <td th:text="${entries.sortOrder}"></td>
+                                <td>
+                                    <a th:href="'/category/updateCategory_form?id='+${entries.id}" type="button" class="btn btn-sm btn-default btn-primary">编辑</a>
+                                    <a th:href="'/category/deleteByCategoryId?id='+${entries.id}" type="button" class="btn btn-sm btn-default  btn-danger">删除</a>
+
+                                    <a th:href="'/category/nextCategory?id='+${entries.id}" type="button" class="btn btn-sm btn-default btn-primary">添加下级菜单</a>
+
+
+
+                                </td>
+                            </tr>
+
+
+
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
+<script>
+    $(function () {
+        $('#treeTable').treeTable({
+            expendLevel:3,
+            column:0
+        })
+    });
+
+</script>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzxy.language.dao.XiangYinDao" >
+    <sql id="base_content">
+          id,
+          name,
+          type,
+          record,
+          video,
+          created,
+          updated
+    </sql>
+
+    <!--查看表中的所有内容-->
+    <select id="selectAll" resultType="XiangYin">
+        SELECT
+        <include refid="base_content"/>
+        from
+        xiangyin
+    </select>
+
+    <!--插入记录-->
+    <insert id="insert" parameterType="XiangYin">
+
+        INSERT  INTO xiangyin
+        (
+          name,
+          type,
+          record,
+          video,
+          created,
+          updated
+        )
+        VALUES
+        (
+        #{name},
+        #{type},
+        #{record},
+        #{video},
+        #{created},
+        #{updated}
+        )
+
+    </insert>
+
+    <!--根据id查找信息-->
+    <select id="selectById" resultType="XiangYin">
+        SELECT
+        <include refid="base_content"/>
+        from
+        xiangyin
+        as a
+        where a.id=#{id}
+    </select>
+
+    <!--根据id删除信息-->
+    <delete id="deleteById" parameterType="long">
+        delete from   xiangyin WHERE  id=#{id}
+    </delete>
+
+
+    <!--根据id 更新信息-->
+    <update id="update" parameterType="XiangYin">
+        UPDATE xiangyin as a  SET
+        a.name=#{name},
+        a.type=#{type},
+        a.record=#{record},
+        a.video=#{video},
+        a.updated=#{updated}
+        WHERE a.id= #{id}
+    </update>
+
+
+    <!--分页-->
+    <select id="page" resultType="XiangYin" parameterType="java.util.Map">
+        SELECT
+        <include refid="base_content"/>
+        FROM
+        xiangyin AS  a
+        <where>
+            <if test="pageParams.type!=null and pageParams.type!=''">
+                AND  a.type LIKE  CONCAT('%',#{pageParams.type},'%')
+            </if>
+        </where>
+        LIMIT #{start}, #{length}
+    </select>
+
+
+    <!--记录数-->
+    <select id="count" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM xiangyin AS  a
+        <where>
+            <if test="type!=null and type!=''">
+                AND  a.type LIKE  CONCAT('%',#{type},'%')
+            </if>
+        </where>
+
+    </select>
+
+
+
+
+</mapper>

@@ -1,0 +1,84 @@
+body,div,span,input,ul,li{
+    margin:0 auto;
+    padding: 0px;
+    text-align: center;
+
+}
+
+@media screen and (min-width: 960px) {
+    .top,
+    .center {
+        width:100%;
+
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 960px) {
+    .top,
+    .center {
+        width: 1440px;
+
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .top,
+    .center {
+        width: 600px;
+
+    }
+}
+
+.top{
+    background-color: #1b809e;
+    height: 100px;
+    border: 2px solid darkgrey;
+}
+
+.left{
+    background-color: #1b809e;
+    border:2px solid darkgrey;
+    height: 800px;
+    padding: 20px;
+
+}
+
+.right{
+    border:2px solid darkgrey;
+   height: 800px;
+    background-color: #f8f8f8;
+    text-decoration: none;
+}
+
+
+#accordion .bao ul{
+    list-style-type: none !important;
+    padding-left: 13px;
+}
+
+#accordion ul li a{
+    list-style-type: none;
+    color: black;
+    display: block;
+     width: 90px;
+     height: 30px;
+    line-height: 30px;
+     margin: 5px;
+    background-color: whitesmoke;
+     font-size: 16px;
+     text-align: center;
+}
+#accordion ul li a:hover{
+    background-color: #00CC00;
+    text-decoration:none;
+}
+
+#accordion  .bao{
+     margin-top: 10px;
+ }
+
+
+
+
+
+

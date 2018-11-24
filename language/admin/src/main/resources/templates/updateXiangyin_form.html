@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head th:include="include/head :: header">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width,initial-scale=1">
+    <title>乡音表单</title>
+
+</head>
+<body>
+<div class="container" >
+    <div class="row top" th:include="include/include_main_menu :: copy_top"></div>
+    <div class="row center">
+        <div class="col-md-2 left" th:include="include/include_main_menu :: copy_menu"></div>
+        <div class="col-md-10 right" >
+            <h3>更新乡音信息</h3>
+            <form class="form-horizontal"  action="/xiangyin/update" method="post" th:object="${xiangYin}">
+
+                <div class="form-group">
+                    <label for="id" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-8">
+                        <input type="hidden" class="form-control" id="id" name="id" th:value="*{id}"  >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="name" class="col-sm-2 control-label">名字:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="请输入分类名称" th:value="*{name}"  >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="type" class="col-sm-2 control-label">类型:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="type" name="type" placeholder="请输入类型" th:value="*{type}"  >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="record" class="col-sm-2 control-label">录音:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="record" name="record" placeholder="录音" th:value="*{record}"  >
+                </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="video" class="col-sm-2 control-label">视频:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="video" name="video" placeholder="视频" th:value="*{video}"  >
+                    </div>
+                </div>
+
+                <button onclick="history.go(-1);" style="margin-right: 150px;">返回</button>
+                <button  type="submit" style="margin-left: 100px;">提交</button>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

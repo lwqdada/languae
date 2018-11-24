@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width,initial-scale=1">
+    <th:block th:include="include/head :: header"></th:block>
+    <title>更新区域信息表单</title>
+
+</head>
+<body>
+<div class="container" >
+    <div class="row top" th:include="include/include_main_menu :: copy_top"></div>
+    <div class="row center">
+        <div class="col-md-2 left" th:include="include/include_main_menu :: copy_menu"></div>
+        <div class="col-md-10 right" >
+            <h3>更新内容</h3>
+            <!--form-begin-->
+            <form class="form-horizontal" action="/content/updateAreaContent" method="post" th:object="${areaContent}">
+                <div class="form-group">
+                    <label for="id" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-8">
+                        <input type="hidden" class="form-control" id="id" name="id"  th:value="*{id}" >
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="categoryId" class="col-sm-2 control-label">父级目录id:</label>
+                    <div class="col-sm-8">
+
+                        <input id="categoryId" class="form-control" placeholder="请选择需要更改的区域id" readonly="true" data-toggle="modal" data-target="#myModal"  th:value="*{categoryId}"  />
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="yanyu" class="col-sm-2 control-label">谚语俗语：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="yanyu" name="yanyu"   placeholder="请输入要更改的谚语"  th:value="*{yanyu}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="geyao" class="col-sm-2 control-label">歌谣：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="geyao" name="geyao"   placeholder="请输入要更改的歌谣"  th:value="*{geyao}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gushi" class="col-sm-2 control-label">故事：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="gushi" name="gushi"   placeholder="请输入要更改的故事"  th:value="*{gushi}" >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dancanduce" class="col-sm-2 control-label">典藏图册：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="dancanduce" name="dancanduce"   placeholder="请上传相应的图册"   >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="content" class="col-sm-2 control-label">简介：</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="content" name="content"   placeholder="请输入要更改的简介"  th:value="*{content}" >
+                    </div>
+                </div>
+
+                <button onclick="history.go(-1);" style="margin-right: 150px;">返回</button>
+                <button  type="submit" style="margin-left: 100px;">提交</button>
+            </form>
+
+            <!--form_end-->
+
+            <!--modal-begin-->
+           <!-- <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                模态框
+            </button>-->
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">
+                                    请选择
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p id="modal-message">
+                                <ul id="myTree" class="ztree">
+                                </ul>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary" id="btnModalOk" >
+                                确定
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!--modal-end-->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        var setting={
+           async:{
+               enable:true,
+               url:"/tree/data",
+               autoParam:["id"]
+
+           }
+        };
+        $.fn.zTree.init($("#myTree"),setting);
+        $("#btnModalOk").bind("click",function () {
+            var zTree=$.fn.zTree.getZTreeObj("myTree");
+            var nodes=zTree.getSelectedNodes();
+            //未选择
+            if(nodes.length==0){
+                alert("请选择一个节点");
+            }else {//已选择
+                var node=nodes[0];
+               $("#categoryId").val(node.id);
+               $("#categoryName").val(node.name);
+                $("#myModal").modal("hide")
+            }
+            
+        })
+    });
+</script>
+
+</body>
+</html>

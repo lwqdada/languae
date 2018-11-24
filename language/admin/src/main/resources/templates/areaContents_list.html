@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width = device-width,initial-scale=1">
+    <th:block th:include="include/head :: header"></th:block>
+    <script src="/static/js/common.js"></script>
+    <title>地区语言内容列表</title>
+    <style>
+        *{
+            padding: 0;
+            margin:0;
+            text-decoration: none;
+        }
+        .option a{
+            float:left;
+            margin-right:40px ;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" >
+    <div class="row top" th:include="include/include_main_menu :: copy_top"></div>
+    <div class="row center">
+        <div class="col-md-2 left" th:include="include/include_main_menu :: copy_menu"></div>
+
+        <div class="col-md-10 right" >
+            <button onclick="history.go(-1);" style="float:left; margin-top: 10px;" >返回</button>
+           <!--引入模态框-->
+            <div th:include="include/content_detail :: content_modal"></div>
+
+            <!--引入删除警告模态框-->
+            <div th:include="include/delete_modal :: deleteWarning"></div>
+
+            <h3>内容列表</h3>
+            <p th:text="${msg}" class="btn-success" style="text-align: left; width: 150px;"></p>
+            <div class="option">
+                <a class="glyphicon glyphicon-plus btn btn-primary" href="/content/content_form">新增</a>
+                <a type="button" class="btn btn-primary glyphicon glyphicon-trash">删除</a>
+            </div>
+            <p style="clear: left;"></p>
+
+
+             <div>
+                 <input type="text" id="username" name="username" placeholder="区域id查询"/>
+                 <button  onclick="search();">搜索</button>
+
+             </div>
+
+
+
+
+            <div class="box-body table-responsive no-padding" >
+                <table class="table table-hover" id="dataTable">
+                    <thead>
+                    <tr>
+                        <td><input type="checkbox" id="big_box" onchange="check();"></td>
+                        <td> Id</td>
+                        <td> 分类Id</td>
+                        <td> 谚语</td>
+                        <td> 歌谣</td>
+                        <td> 故事</td>
+                        <td> 更新时间</td>
+                        <td> 操作</td>
+
+                    </tr>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script type="text/javascript">
+/*查看详情！*/
+        function detail(url) {
+            //这里通过ajax请求html的方式装载进模态框中
+            $.ajax({
+                url:url,
+                style:"get",
+                dataType:"json",
+                success:function (data) {
+
+                    $("#content_msg1").html(data.id);
+                    $("#content_msg2").html(data.categoryId);
+                    $("#content_msg3").html(data.yanyu);
+                    $("#content_msg4").html(data.geyao);
+                    $("#content_msg5").html(data.gushi);
+                    $("#content_msg6").html(data.jinji);
+                    $("#content_msg7").html(data.qiyu);
+                    $("#content_msg8").html(data.diancantuce);
+                    $("#content_msg9").html(data.content);
+                    $("#content_msg10").html(data.updated);
+                    $("#content_msg11").html(data.created);
+                   $("#myModal").modal("show");
+
+                }
+            });
+
+        };
+
+        var  _dataTable;
+      $(document).ready(function () {
+
+          _dataTable=$('#dataTable').DataTable({
+
+              //是否开启本地分页
+              "paging": true,
+              //是否显示左下角的信息
+              "info": true,
+              //是否开启本地排序
+              "ordering": false,
+              // 是否显示处理状态(排序的时候，数据很多耗费时间长的话，也会显示这个)
+              "processing": true,
+              //是否允许Datatables开启本地搜索
+              "searching": false,
+
+              //是否开启服务器模式
+              "serverSide": true,
+              //是否允许用户改变表格每页显示的记录数
+              "lengthChange": false,
+
+              "deferRender": true,
+              // 增加或修改通过 Ajax 提交到服务端的请求数据
+              "ajax": {
+                  "url": "/content/area/page"
+              },
+              "columns" : [
+                  {
+                      "data": function (row, type, val, meta) {
+                          return '<input id="' + row.id + '" type="checkbox" class="minimal" />';
+                      }
+                  },
+                  {"data" : "id"},
+                  {"data" : "categoryId"},
+                  {"data" : "yanyu"},
+                  {"data": "geyao"},
+                  {"data": "gushi"},
+                  {
+                      "data": function (row, type, val, meta) {
+                          return DateTime.format(row.updated, "yyyy-MM-dd HH:mm:ss")
+                      }
+                  },
+                  {
+                      "data": function (row, type, val, meta) {
+                          var  detailurl="/content/getContentById?id="+row.id;
+                          var  deleteurl="/content/deleteByareaId?id="+row.id;
+                          return '<button  onclick="detail(\''+detailurl+'\');"  class="btn btn-sm btn-default btn-sm"><i class="fa fa-search"> 查看</i></button>' +
+                              ' <a href="/content/updateContentForm?id='+row.id+'" type="button" class="btn btn-sm btn-default btn-primary"><i class="fa fa-edit">编辑</i></a>' +
+                              '  <a  type="button"class="btn btn-sm btn-default btn-danger" onclick="deleteById(\'' +  deleteurl + '\');"><i class="fa fa-trash">删除</i></a>';
+                      }
+                  }
+
+
+              ],
+
+              // 国际化
+              "language": {
+                  "sProcessing": "处理中...",
+                  "sLengthMenu": "显示 _MENU_ 项结果",
+                  "sZeroRecords": "没有匹配结果",
+                  "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                  "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                  "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                  "sInfoPostFix": "",
+                  "sSearch": "搜索:",
+                  "sUrl": "",
+                  "sEmptyTable": "表中数据为空",
+                  "sLoadingRecords": "载入中...",
+                  "sInfoThousands": ",",
+                  "oPaginate": {
+                      "sFirst": "首页",
+                      "sPrevious": "上页",
+                      "sNext": "下页",
+                      "sLast": "末页"
+                  }
+              },
+              "oAria": {
+                  "sSortAscending": ": 以升序排列此列",
+                  "sSortDescending": ": 以降序排列此列"
+              }
+
+
+
+
+          });
+
+
+      });
+
+        function  search() {
+            var username=$("#username").val();
+            console.log(username);
+            var param={
+                "username":username
+            };
+            _dataTable.settings()[0].ajax.data=param;
+            _dataTable.ajax.reload();
+        }
+
+
+
+
+    </script>
+
+
+
+</body>
+</html>

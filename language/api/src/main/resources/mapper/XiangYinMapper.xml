@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.language.api.dao.XiangyinDao" >
+    <sql id="base_content">
+          id,
+          name,
+          type,
+          record,
+          video,
+          created,
+          updated
+    </sql>
+
+    <!--查看表中的所有内容-->
+    <select id="selectAll" resultType="XiangYin">
+        SELECT
+        <include refid="base_content"/>
+        from
+        xiangyin
+    </select>
+
+    <!--插入记录-->
+    <insert id="insert" parameterType="XiangYin">
+
+        INSERT  INTO xiangyin
+        (
+          name,
+          type,
+          record,
+          video,
+          created,
+          updated
+        )
+        VALUES
+        (
+        #{name},
+        #{type},
+        #{record},
+        #{video},
+        #{created},
+        #{updated}
+        )
+
+    </insert>
+
+    <!--根据id查找信息-->
+    <select id="selectById" resultType="XiangYin">
+        SELECT
+        <include refid="base_content"/>
+        from
+        xiangyin
+        as a
+        where a.id=#{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.language.api.dao.CategoryDao" >
+ <sql id="base_category">
+      a.id,
+      a.parent_id as parentId,
+      a.name,
+      a.status,
+      a.sort_order as sortOrder,
+      a.is_parent as isParent,
+      a.created,
+      a.updated
+ </sql>
+
+    <!--查看表中的所有内容-->
+    <select id="selectAll" resultType="Category">
+        SELECT
+        <include refid="base_category"/>
+        from
+         area_content_category AS  a
+        where   a.parent_id!=0
+    </select>
+
+    <select id="selectByPid" resultType="Category">
+        SELECT
+        <include refid="base_category"/>
+        from
+        area_content_category
+        as a
+        where a.parent_id=#{parentId}
+    </select>
+
+    <!--根据id查询父级-->
+    <select id="selectByPidSingle" resultType="Category">
+        SELECT
+        <include refid="base_category"/>
+        from
+        area_content_category
+        as a
+        where a.id=#{parentId}
+    </select>
+
+    <!--根据id删除记录-->
+    <delete id="deleteById">
+        delete from area_content_category
+        where id=#{id}
+    </delete>
+
+
+    <!--根据id更新分类信息-->
+    <update id="update" parameterType="Category">
+        UPDATE  area_content_category as a  SET
+        a.id=#{id},
+        a.name=#{name},
+        a.updated=#{updated}
+        WHERE a.id= #{id}
+    </update>
+    
+    <!--根基id查找记录信息-->
+    <select id="selectById" resultType="Category">
+        SELECT
+        <include refid="base_category"/>
+        from
+        area_content_category
+        as a
+        where a.id=#{id}
+    </select>
+
+    <!--新增下级菜单-->
+    <insert id="insert" parameterType="Category">
+
+        INSERT  INTO area_content_category
+          (
+            parent_id,
+            name,
+            status,
+            sort_order,
+            is_parent,
+            created,
+            updated
+        )
+        VALUES
+        (
+            #{parentId},
+            #{name},
+            #{status},
+            #{sortOrder},
+            #{isParent},
+            #{created},
+            #{updated}
+        )
+
+    </insert>
+
+</mapper>

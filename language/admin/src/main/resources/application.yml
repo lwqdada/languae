@@ -1,0 +1,51 @@
+
+server:
+  port: 8081
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/hz-language?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+
+
+    #模板配置
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+     static-locations: classpath:/static/
+
+   #设置字符编码
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  messages:
+    encoding: UTF-8
+
+    #上传装置
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+
+
+
+
+
+#映射路径
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: com.hzxy.language.entity  # 注意：对应实体类的路径
+
+
+  #字符编码
+  tomcat:
+    uri-encoding: utf-8
+

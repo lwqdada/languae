@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="container" >
+    <div class="row top" th:fragment="copy_top">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-xs-12   col-sm-10 col-md-8 "> <h3 style="color: white; font-weight: bolder; text-align: left;">语言后台管理系统</h3></div>
+                <div class="col-xs-8 col-sm-6 col-md-4" style="margin-top: 20px; color: white;">
+                    欢迎~<span th:text="${session.user.username}" style="color:red;"></span>~回来
+                    <a href="/user/logout" style="width: 40px; color:darkblue ; margin-left: 60px;">注销</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row center">
+        <div class="col-xs-6  col-sm-4 col-md-2" th:fragment="copy_menu">
+
+          <div class="panel-group " id="accordion">
+
+              <!--用户管理-->
+              <div class="bao panel-heading">
+                  <button type="button" class="btn btn-primary " data-toggle="collapse" data-parent="#accordion"
+                          href="#collapseOne">
+                      <i class="glyphicon glyphicon-user"></i>&nbsp;用户管理&nbsp;<span class="glyphicon glyphicon-chevron-right tu" ></span>
+
+                  </button>
+                  <div id="collapseOne" class="panel-collapse collapse">
+
+                      <ul  >
+                          <li >
+                              <a  href="/user/user_form">新增用户</a>
+                          </li>
+                          <li >
+                              <a  href="/user/user_list">用户列表</a>
+                          </li>
+
+                      </ul>
+
+                  </div>
+              </div>
+
+              <!-- 内容管理-->
+              <div class="bao panel-heading">
+                  <button type="button" class="btn btn-primary "
+                          data-toggle="collapse" data-parent="#accordion"
+                          href="#collapseTwo" >
+                      <i class="glyphicon glyphicon-folder-open"></i>&nbsp;内容管理&nbsp;<span class="glyphicon glyphicon-chevron-right tu" ></span>
+
+                  </button>
+                  <div id="collapseTwo" class="collapse panel-collapse ">
+
+                      <ul  >
+                          <li >
+                              <a  href="/category/selectALLCategory">分类列表</a>
+                          </li>
+                          <li >
+                              <a  href="/content/content_form">新增内容</a>
+                          </li>
+
+                          <li >
+                              <a  href="/content/areaContents">内容展示</a>
+                          </li>
+
+                      </ul>
+
+                  </div>
+              </div>
+
+              <!--乡音管理-->
+              <div class="bao panel-heading">
+                  <button type="button" class="btn btn-primary "
+                          data-toggle="collapse" data-parent="#accordion"
+                          href="#collapseThree" >
+                      <i class="glyphicon glyphicon-folder-open"></i>&nbsp;乡音管理&nbsp;<span class="glyphicon glyphicon-chevron-right tu" ></span>
+
+                  </button>
+                  <div id="collapseThree" class="collapse panel-collapse ">
+
+                      <ul  >
+                          <li >
+                              <a  href="/xiangyin/xiangyinList">乡音列表</a>
+                          </li>
+
+
+                      </ul>
+
+                  </div>
+              </div>
+
+
+          </div>
+
+
+
+
+
+
+
+        </div>
+
+
+
+
+        </div>
+        <div class=" col-xs-12 col-sm-12 col-md-10 right" >dagagg</div>
+    </div>
+</div>
+
+
+
+</html>
